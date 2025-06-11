@@ -4,6 +4,7 @@ from rich.panel import Panel
 from rich import box
 import time
 import re
+import ipaddress
 
 console = Console()
 
@@ -61,8 +62,13 @@ def set_target():
 
 def validate_target(target):
     domain_pattern = re.compile(r"^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$")
-    ip_pattern = re.compile(r"^(?:\d{1,3}\.){3}\d{1,3}$")
-    return bool(domain_pattern.match(target) or ip_pattern.match(target))
+    if domain_pattern.match(target):
+        return True
+    try:
+        ipaddress.ip_address(target)
+        return True
+    except ValueError:
+        return False
 
 def choose_recon_mode():
     console.print("\n[bold green]Choose Recon Mode:[/bold green]")
