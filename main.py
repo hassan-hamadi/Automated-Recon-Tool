@@ -135,7 +135,9 @@ def main():
         choice = main_menu(target, recon_mode, selected_modules)
         
         if choice == "1":
-            target = set_target()
+            new_target = set_target()
+            if new_target is not None:
+                target = new_target
         elif choice == "2":
             selected_modules = select_modules()
         elif choice == "3":
